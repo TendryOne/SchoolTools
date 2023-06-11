@@ -53,11 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($etudiant) {
             if (password_verify($password, $etudiant['password'])) {
-                $id_session = hash_hmac('sha256', bin2hex(32), 'GeniusGate');
-                $authController->LoginEtudiants($id_session, $etudiant['id_etudiant']);
+                $id_session = bin2hex(random_bytes(32));
+                $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
+                $authController->LoginEtudiants($id_session, $etudiant['id_etudiant'], $signature);
                 header('Location: /');
             } else {
-                $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect';
+                $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un etudiant';
             }
         } else {
             $error['password'] = 'l\' utilisateur que vous avez entrer n\'existe pas';

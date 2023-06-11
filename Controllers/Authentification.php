@@ -24,9 +24,10 @@ class AuthController
     {
         return $this->EtudiantsModel->ReadEtudiants($email);
     }
-    public function LoginEtudiants($id_session, $id_etudiants)
+    public function LoginEtudiants($id_session, $id_etudiants, $signature)
     {
         $this->EtudiantsModel->InsertSessionEtudiants($id_session, $id_etudiants);
+        setcookie('signature', $signature, time() + 60 * 60 * 24 * 14, '', '', false, true);
         setcookie('session', $id_session, time() + 60 * 60 * 24 * 14, '', '', false, true);
     }
 }
