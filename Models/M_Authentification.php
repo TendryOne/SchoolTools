@@ -4,10 +4,9 @@
 class EtudiantsModel
 {
     private $statementSessionInsert;
-    private $statementSessionRead;
-    private $statementSessionUpdate;
     private $statementEtudiantInsert;
     private $statementEtudiantRead;
+    private $statementEtudiantReadAll;
 
     function __construct(private $pdo)
     {
@@ -25,6 +24,8 @@ class EtudiantsModel
             :id_session,
             :id_etudiants
         )');
+
+        $this->statementEtudiantReadAll = $pdo->prepare('SELECT * FROM etudiants');
     }
 
     public function InsertEtudiants($name, $firstname, $email, $password)
@@ -48,29 +49,67 @@ class EtudiantsModel
         $this->statementSessionInsert->bindValue(':id_etudiants', $id_etudiants);
         $this->statementSessionInsert->execute();
     }
+
+    public function ReadAllEtudiants()
+    {
+        $this->statementEtudiantReadAll->execute();
+        return $this->statementEtudiantReadAll->fetchAll();
+    }
 }
 class ProfsModel
 {
-    private $statementProf;
+
+    private $statementProfsInsert;
+    private $statementProfsRead;
+    private $statementSessionInsert;
+    private $statementProfsReadAll;
 
     function __construct(private $pdo)
     {
 
-        $this->statementProf = $pdo->prepare('INSERT INTO profs VALUES(
+        $this->statementProfsInsert = $pdo->prepare('INSERT INTO profs VALUES(
             DEFAULT,
             :name,
             :firstname,
             :email,
             :password
                 )');
+        $this->statementProfsRead = $pdo->prepare('SELECT * FROM profs WHERE email=:email');
+
+        $this->statementSessionInsert = $pdo->prepare('INSERT INTO sessions_profs VALUES(
+            :id_session,
+            :id_profs
+        )');
+
+        $this->statementProfsReadAll = $pdo->prepare('SELECT * FROM profs ');
     }
 
     public function InsertProf($name, $firstname, $email, $password)
     {
-        $this->statementProf->bindValue(':name', $name);
-        $this->statementProf->bindValue(':firstname', $firstname);
-        $this->statementProf->bindValue(':email', $email);
-        $this->statementProf->bindValue(':password', $password);
-        $this->statementProf->execute();
+        $this->statementProfsInsert->bindValue(':name', $name);
+        $this->statementProfsInsert->bindValue(':firstname', $firstname);
+        $this->statementProfsInsert->bindValue(':email', $email);
+        $this->statementProfsInsert->bindValue(':password', $password);
+        $this->statementProfsInsert->execute();
+    }
+
+    public function ReadProfs($email)
+    {
+        $this->statementProfsRead->bindValue(':email', $email);
+        $this->statementProfsRead->execute();
+        return $this->statementProfsRead->fetch();
+    }
+
+    public function InsertSessionProfs($id_session, $id_profs)
+    {
+        $this->statementSessionInsert->bindValue(':id_session', $id_session);
+        $this->statementSessionInsert->bindValue(':id_profs', $id_profs);
+        $this->statementSessionInsert->execute();
+    }
+
+    public function ReadAllProfs()
+    {
+        $this->statementProfsReadAll->execute();
+        return $this->statementProfsReadAll->fetchAll();
     }
 }

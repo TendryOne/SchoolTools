@@ -25,6 +25,7 @@ const REQUIRED_FIELD = "Veuillez remplir ce champ";
 const SHORT_PASSWORD = "Votre mot de passe doit etre superieur a 8 caracteres";
 const REGEX_PASSWORD = "Votre mot de passe doit contenir au moins 1 Majuscule et 1 chiffre";
 const INVALID_EMAIL = "Votre email n'est pas valid , Veuillez essayer le format GenieGate@exemple.mg";
+const TAKEN_EMAIL = "Cette email a deja ete utilise";
 
 $profsModel = new ProfsModel($pdo);
 $EtudiantsModel = new EtudiantsModel($pdo);
@@ -88,17 +89,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty(array_filter($error, fn ($e) => $e !== ''))) {
-        if ($role === 'Professeur') {
-            header('Location: login.php');
-            $authController->registerProfs($name, $firstname, $email, $password);
-        } else if ($role === 'Etudiant') {
-            $authController->registerEtudiants($name, $firstname, $email, $password);
-            header('Location: login.php');
+        $etudiant = $authController->readEtudiants($email);
+        $prof = $authController->readProfs($email);
+        if ($etudiant || $prof) {
+            $error['email'] = TAKEN_EMAIL;
+        } else {
+            if ($role === 'Professeur') {
+                header('Location: login.php');
+                $authController->registerProfs($name, $firstname, $email, $password);
+            } else if ($role === 'Etudiant') {
+                $authController->registerEtudiants($name, $firstname, $email, $password);
+                header('Location: login.php');
+            }
         }
     }
 }
-
-
 
 ?>
 

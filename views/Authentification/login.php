@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty(array_filter($error, fn ($e) => $e !== ''))) {
         $etudiant = $authController->readEtudiants($email);
+        $prof = $authController->readProfs($email);
 
         if ($etudiant) {
             if (password_verify($password, $etudiant['password'])) {
@@ -59,6 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: /');
             } else {
                 $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un etudiant';
+            }
+        } elseif ($prof) {
+            if (password_verify($password, $prof['password'])) {
+                $id_session = bin2hex(random_bytes(32));
+                $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
+                $authController->LoginProfs($id_session, $prof['id_prof'], $signature);
+                header('Location: /');
+            } else {
+                $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un Prof';
             }
         } else {
             $error['password'] = 'l\' utilisateur que vous avez entrer n\'existe pas';

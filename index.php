@@ -15,6 +15,23 @@
 </head>
 
 <body>
+
+
+    <?php
+    $pdo = require_once __DIR__ . '/Models/Database.php';
+    require __DIR__ . '/Controllers/Authentification.php';
+    require __DIR__ . '/Models/M_Authentification.php';
+
+    $profsModels = new ProfsModel($pdo);
+    $etudiantsModels = new EtudiantsModel($pdo);
+
+    $AuthDB = new AuthController($profsModels, $etudiantsModels);
+
+    $etudiants = $AuthDB->readEtudiantsAll();
+    $Profs = $AuthDB->readProfsAll();
+
+
+    ?>
     <div class="nav-container">
         <?php require_once './views/header.php' ?>
         <div class="slogan">
@@ -32,13 +49,13 @@
                     <span><i class="fa-solid fa-user-tie" style="font-size: 100px; color:var(--black);"></i>
                         <p>Professeurs</p>
                     </span>
-                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i><em style="color: var(--secondary-bg);">10</em> Professeurs deja inscrit</span>
+                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i><em style="color: var(--secondary-bg);"><?= count($etudiants) ?? '0' ?></em> Professeur(s) deja inscrit</span>
                 </div>
                 <div class="card">
                     <span> <i class="fa-solid fa-user-graduate" style="font-size: 100px;  color:var(--black);"></i>
                         <p>Etudiants</p>
                     </span>
-                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i> <em style="color: var(--secondary-bg);">3000</em>Etudiants deja inscrit</span>
+                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i> <em style="color: var(--secondary-bg);"><?= count($Profs) ?? '0' ?></em>Etudiant(s) deja inscrit</span>
                 </div>
 
                 <div class="card">
