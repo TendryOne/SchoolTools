@@ -4,9 +4,12 @@
 class EtudiantsModel
 {
     private $statementSessionInsert;
+    private $statementSessionRead;
     private $statementEtudiantInsert;
     private $statementEtudiantRead;
     private $statementEtudiantReadAll;
+    private $statementEtudiantReadbyId;
+    private $statementDeleteSession;
 
     function __construct(private $pdo)
     {
@@ -18,7 +21,10 @@ class EtudiantsModel
             :email,
             :password
                 )');
+
         $this->statementEtudiantRead = $pdo->prepare('SELECT * FROM etudiants WHERE email=:email');
+
+        $this->statementEtudiantReadbyId = $pdo->prepare('SELECT * FROM etudiants WHERE id_etudiant = :id_etudiant');
 
         $this->statementSessionInsert = $pdo->prepare('INSERT INTO sessions_etudiants VALUES(
             :id_session,
@@ -26,6 +32,10 @@ class EtudiantsModel
         )');
 
         $this->statementEtudiantReadAll = $pdo->prepare('SELECT * FROM etudiants');
+
+        $this->statementSessionRead = $pdo->prepare('SELECT * FROM sessions_etudiants WHERE id_session_etudiant = :id_session_etudiant ');
+
+        $this->statementDeleteSession = $pdo->prepare('DELETE  FROM sessions_etudiants WHERE id_session_etudiant = :id_session_etudiant');
     }
 
     public function InsertEtudiants($name, $firstname, $email, $password)
@@ -50,10 +60,29 @@ class EtudiantsModel
         $this->statementSessionInsert->execute();
     }
 
+    public function ReadSessionEtudiants($id_session_etudiant)
+    {
+        $this->statementSessionRead->bindValue(':id_session_etudiant', $id_session_etudiant);
+        $this->statementSessionRead->execute();
+        return $this->statementSessionRead->fetch();
+    }
+
     public function ReadAllEtudiants()
     {
         $this->statementEtudiantReadAll->execute();
         return $this->statementEtudiantReadAll->fetchAll();
+    }
+    public function ReadEtudiantsbyId($id_etudiant)
+    {
+        $this->statementEtudiantReadbyId->bindValue(':id_etudiant', $id_etudiant);
+        $this->statementEtudiantReadbyId->execute();
+        return $this->statementEtudiantReadbyId->fetch();
+    }
+
+    public function DeleteSession($id_session_etudiant)
+    {
+        $this->statementDeleteSession->bindValue(':id_session_etudiant', $id_session_etudiant);
+        $this->statementDeleteSession->execute();
     }
 }
 class ProfsModel
@@ -63,6 +92,8 @@ class ProfsModel
     private $statementProfsRead;
     private $statementSessionInsert;
     private $statementProfsReadAll;
+    private $statementSessionRead;
+    private $statementProfsReadbyId;
 
     function __construct(private $pdo)
     {
@@ -80,6 +111,10 @@ class ProfsModel
             :id_session,
             :id_profs
         )');
+
+        $this->statementSessionRead = $pdo->prepare('SELECT * FROM sessions_profs WHERE id_session_prof = :id_session_prof');
+
+        $this->statementProfsReadbyId = $pdo->prepare('SELECT * FROM profs WHERE id_prof = :id_prof');
 
         $this->statementProfsReadAll = $pdo->prepare('SELECT * FROM profs ');
     }
@@ -106,10 +141,22 @@ class ProfsModel
         $this->statementSessionInsert->bindValue(':id_profs', $id_profs);
         $this->statementSessionInsert->execute();
     }
+    public function ReadSessionProfs($id_session_prof)
+    {
+        $this->statementSessionRead->bindValue(':id_session_prof', $id_session_prof);
+        $this->statementSessionRead->execute();
+        return $this->statementSessionRead->fetch();
+    }
 
     public function ReadAllProfs()
     {
         $this->statementProfsReadAll->execute();
         return $this->statementProfsReadAll->fetchAll();
+    }
+    public function ReadProfsbyId($id_prof)
+    {
+        $this->statementProfsReadbyId->bindValue(':id_prof', $id_prof);
+        $this->statementProfsReadbyId->execute();
+        return $this->statementProfsReadbyId->fetch();
     }
 }

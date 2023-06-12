@@ -58,4 +58,56 @@ class AuthController
     {
         return $this->EtudiantsModel->ReadAllEtudiants();
     }
+
+
+
+    public function isLoggedAsEtudiant(): array | false
+    {
+        $sessionId = $_COOKIE['session'] ?? '';
+        $signature = $_COOKIE['signature'] ?? '';
+
+
+        if ($sessionId && $signature) {
+            $hash = hash_hmac('sha256', $sessionId, 'GeniusGate');
+            if (hash_equals($hash, $signature)) {
+                $session = $this->EtudiantsModel->ReadSessionEtudiants($sessionId);
+
+                if ($session) {
+                    $etudiant = $this->EtudiantsModel->ReadEtudiantsbyId($session['id_etudiant']);
+                }
+            }
+        }
+
+        return $etudiant ?? false;
+    }
+
+    public function isLoggedAsProf(): array | false
+    {
+        $sessionId = $_COOKIE['session'] ?? '';
+        $signature = $_COOKIE['signature'] ?? '';
+
+
+        if ($sessionId && $signature) {
+            $hash = hash_hmac('sha256', $sessionId, 'GeniusGate');
+            if (hash_equals($hash, $signature)) {
+                $session = $this->ProfsModel->ReadSessionProfs($sessionId);
+
+                if ($session) {
+                    $prof = $this->ProfsModel->ReadProfsbyId($session['id_prof']);
+                }
+            }
+        }
+
+        return $prof ?? false;
+    }
+    public function logoutEtudiant()
+    {
+        $id_session_etudiant = $_COOKIE['session'];
+        $this->EtudiantsModel->DeleteSession($id_session_etudiant);
+        setcookie('session', '', time() - 1, '/', '', false, true);
+        setcookie('signature', '', time() - 1, '/', '', false, true);
+    }
+    public function logoutProf()
+    {
+    }
 }

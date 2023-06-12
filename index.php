@@ -22,11 +22,12 @@
     require __DIR__ . '/Controllers/Authentification.php';
     require __DIR__ . '/Models/M_Authentification.php';
 
+
     $profsModels = new ProfsModel($pdo);
     $etudiantsModels = new EtudiantsModel($pdo);
-
     $AuthDB = new AuthController($profsModels, $etudiantsModels);
-
+    $currentUserEtudiant = $AuthDB->isLoggedAsEtudiant();
+    $currentUserProf = $AuthDB->isLoggedAsProf();
     $etudiants = $AuthDB->readEtudiantsAll();
     $Profs = $AuthDB->readProfsAll();
 
@@ -36,7 +37,7 @@
         <?php require_once './views/header.php' ?>
         <div class="slogan">
             <h2 style=" color:white;"><i class="fa-solid fa-quote-left fa-fade" style="font-size: 50px; color:white;"></i> Des professeurs engagés, des étudiants inspirés - ensemble, nous grandissons <i class="fa-sharp fa-solid fa-quote-right fa-fade" style="font-size: 50px;  color:white;"></i></h2>
-            <a href="">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
+            <a href="/views//Authentification//Register.php">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
         </div>
 
 
@@ -49,13 +50,13 @@
                     <span><i class="fa-solid fa-user-tie" style="font-size: 100px; color:var(--black);"></i>
                         <p>Professeurs</p>
                     </span>
-                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i><em style="color: var(--secondary-bg);"><?= count($etudiants) ?? '0' ?></em> Professeur(s) deja inscrit</span>
+                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i><em style="color: var(--secondary-bg);"><?= count($Profs) ?? '0' ?></em> Professeur(s) deja inscrit</span>
                 </div>
                 <div class="card">
                     <span> <i class="fa-solid fa-user-graduate" style="font-size: 100px;  color:var(--black);"></i>
                         <p>Etudiants</p>
                     </span>
-                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i> <em style="color: var(--secondary-bg);"><?= count($Profs) ?? '0' ?></em>Etudiant(s) deja inscrit</span>
+                    <span class="sideback"><i class="fa-solid fa-user" style="margin: 20px;font-size: 30px;"></i> <em style="color: var(--secondary-bg);"><?= count($etudiants) ?? '0' ?></em>Etudiant(s) deja inscrit</span>
                 </div>
 
                 <div class="card">
@@ -69,7 +70,7 @@
 
         </div>
 
-        <div class="container">
+        <div class="container" id="container">
             <div class="section1">
                 <div class="image-container"></div>
                 <p style="color: black;">🙶 Ouvrez les portes du génie avec l'éducation 🙸</p>
@@ -105,6 +106,8 @@
     </section>
 
     <?php require_once './views/footer.php' ?>
+
+    <script src="/assets/js/script.js"></script>
 </body>
 
 
