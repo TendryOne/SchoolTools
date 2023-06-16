@@ -19,7 +19,9 @@ class EtudiantsModel
             :name,
             :firstname,
             :email,
-            :password
+            :password,
+            "pending",
+            :level
                 )');
 
         $this->statementEtudiantRead = $pdo->prepare('SELECT * FROM etudiants WHERE email=:email');
@@ -38,12 +40,13 @@ class EtudiantsModel
         $this->statementDeleteSession = $pdo->prepare('DELETE  FROM sessions_etudiants WHERE id_session_etudiant = :id_session_etudiant');
     }
 
-    public function InsertEtudiants($name, $firstname, $email, $password)
+    public function InsertEtudiants($name, $firstname, $email, $password, $level)
     {
         $this->statementEtudiantInsert->bindValue(':name', $name);
         $this->statementEtudiantInsert->bindValue(':firstname', $firstname);
         $this->statementEtudiantInsert->bindValue(':email', $email);
         $this->statementEtudiantInsert->bindValue(':password', $password);
+        $this->statementEtudiantInsert->bindValue(':level', $level);
         $this->statementEtudiantInsert->execute();
     }
     public function ReadEtudiants($email)
@@ -94,6 +97,8 @@ class ProfsModel
     private $statementProfsReadAll;
     private $statementSessionRead;
     private $statementProfsReadbyId;
+    private $statementDeleteSession;
+
 
     function __construct(private $pdo)
     {
@@ -103,7 +108,8 @@ class ProfsModel
             :name,
             :firstname,
             :email,
-            :password
+            :password,
+            "pending"
                 )');
         $this->statementProfsRead = $pdo->prepare('SELECT * FROM profs WHERE email=:email');
 
@@ -117,6 +123,8 @@ class ProfsModel
         $this->statementProfsReadbyId = $pdo->prepare('SELECT * FROM profs WHERE id_prof = :id_prof');
 
         $this->statementProfsReadAll = $pdo->prepare('SELECT * FROM profs ');
+
+        $this->statementDeleteSession = $pdo->prepare('DELETE FROM sessions_profs WHERE id_session_prof = :id_session_prof');
     }
 
     public function InsertProf($name, $firstname, $email, $password)
@@ -158,5 +166,87 @@ class ProfsModel
         $this->statementProfsReadbyId->bindValue(':id_prof', $id_prof);
         $this->statementProfsReadbyId->execute();
         return $this->statementProfsReadbyId->fetch();
+    }
+    public function DeleteSession($id_session_prof)
+    {
+        $this->statementDeleteSession->bindValue(':id_session_prof', $id_session_prof);
+        $this->statementDeleteSession->execute();
+    }
+}
+
+/// Admin
+class Admin
+{
+    private $statementInsertAdmin;
+    private $statementInsertSession;
+    private $statementDeleteSession;
+    private $statementReadAdmin;
+    private $statementReadSession;
+    private $statementReadAdminById;
+
+    function __construct(private PDO $pdo)
+    {
+        $this->statementInsertAdmin = $pdo->prepare('INSERT INTO admin VALUES (
+            DEFAULT,
+            :username,
+            :email,
+            :password,
+            :role
+        )');
+
+        $this->statementInsertSession = $pdo->prepare('INSERT INTO admin_session VALUE (
+            :id_session_admin,
+            :id_admin
+        )');
+
+        $this->statementDeleteSession = $pdo->prepare('DELETE FROM admin_session WHERE id_session_admin = :id_session_admin ');
+
+        $this->statementReadAdmin = $pdo->prepare('SELECT * FROM admin WHERE username = :username');
+
+        $this->statementReadSession = $pdo->prepare('SELECT * FROM admin_session WHERE id_session_admin = :id_session_admin ');
+
+        $this->statementReadAdminById = $pdo->prepare('SELECT * FROM admin WHERE id_admin = :id_admin');
+    }
+
+    public function InsertAdmin($username, $email, $password, $role)
+    {
+        $this->statementInsertAdmin->bindValue(':username', $username);
+        $this->statementInsertAdmin->bindValue(':email', $email);
+        $this->statementInsertAdmin->bindValue(':password', $password);
+        $this->statementInsertAdmin->bindValue(':role', $role);
+        $this->statementInsertAdmin->execute();
+    }
+
+    public function ReadAdmin($username)
+    {
+        $this->statementReadAdmin->bindValue(':username', $username);
+        $this->statementReadAdmin->execute();
+        return $this->statementReadAdmin->fetch();
+    }
+
+    public function InsertSessionAdmin($id_session_admin, $id_admin)
+    {
+        $this->statementInsertSession->bindValue(':id_session_admin', $id_session_admin);
+        $this->statementInsertSession->bindValue(':id_admin', $id_admin);
+        $this->statementInsertSession->execute();
+    }
+
+    public function DeleteSession($id_session_admin)
+    {
+        $this->statementDeleteSession->bindValue(':id_session_admin', $id_session_admin);
+        $this->statementDeleteSession->execute();
+    }
+    public function ReadSessionAdmin($id_session_admin)
+    {
+        $this->statementReadSession->bindValue(':id_session_admin', $id_session_admin);
+        $this->statementReadSession->execute();
+        return $this->statementReadSession->fetch();
+    }
+
+    public function ReadAdminById($id_admin)
+    {
+        $this->statementReadAdminById->bindValue(':id_admin', $id_admin);
+        $this->statementReadAdminById->execute();
+        return $this->statementReadAdminById->fetch();
     }
 }

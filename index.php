@@ -21,15 +21,20 @@
     $pdo = require_once __DIR__ . '/Models/Database.php';
     require __DIR__ . '/Controllers/Authentification.php';
     require __DIR__ . '/Models/M_Authentification.php';
+    require __DIR__ . "/Controllers/Admin.php";
 
 
+    $AdminModels = new Admin($pdo);
+    $authAdmin = new AuthAdmin($AdminModels);
     $profsModels = new ProfsModel($pdo);
     $etudiantsModels = new EtudiantsModel($pdo);
     $AuthDB = new AuthController($profsModels, $etudiantsModels);
     $currentUserEtudiant = $AuthDB->isLoggedAsEtudiant();
+    $currentUserAdmin = $authAdmin->LoggedAsAdmin();
     $currentUserProf = $AuthDB->isLoggedAsProf();
     $etudiants = $AuthDB->readEtudiantsAll();
     $Profs = $AuthDB->readProfsAll();
+
 
 
     ?>
@@ -37,7 +42,7 @@
         <?php require_once './views/header.php' ?>
         <div class="slogan">
             <h2 style=" color:white;"><i class="fa-solid fa-quote-left fa-fade" style="font-size: 50px; color:white;"></i> Des professeurs engagés, des étudiants inspirés - ensemble, nous grandissons <i class="fa-sharp fa-solid fa-quote-right fa-fade" style="font-size: 50px;  color:white;"></i></h2>
-            <a href="/views//Authentification//Register.php">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
+            <a href="/views//Authentification/Choice.php">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
         </div>
 
 

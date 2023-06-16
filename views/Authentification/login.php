@@ -17,10 +17,14 @@
 $pdo = require_once __DIR__ . '/../../Models/Database.php';
 require __DIR__ . '/../../Controllers/Authentification.php';
 require __DIR__ . '/../../Models/M_Authentification.php';
+require __DIR__ . '/../../Controllers/Admin.php';
+
 
 $profsModel = new ProfsModel($pdo);
 $EtudiantsModel = new EtudiantsModel($pdo);
+$AdminModel = new Admin($pdo);
 $authController = new AuthController($profsModel, $EtudiantsModel);
+$authAdmin = new AuthAdmin($AdminModel);
 
 const REQUIRED_FIELD = "Veuillez remplir ce champ";
 
@@ -53,27 +57,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prof = $authController->readProfs($email);
 
         if ($etudiant) {
-            if (password_verify($password, $etudiant['password'])) {
-                $id_session = bin2hex(random_bytes(32));
-                $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
-                $authController->LoginEtudiants($id_session, $etudiant['id_etudiant'], $signature);
-                header('Location: /');
+            if ($etudiant['validated'] === 'approved') {
+                if (password_verify($password, $etudiant['password'])) {
+                    $id_session = bin2hex(random_bytes(32));
+                    $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
+                    $authController->LoginEtudiants($id_session, $etudiant['id_etudiant'], $signature);
+                    header('Location: /');
+                } else {
+                    $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un etudiant';
+                }
             } else {
-                $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un etudiant';
+                $error['password'] = ' Votre compte Etudiant est en cours de validation ';
             }
         } elseif ($prof) {
-            if (password_verify($password, $prof['password'])) {
-                $id_session = bin2hex(random_bytes(32));
-                $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
-                $authController->LoginProfs($id_session, $prof['id_prof'], $signature);
-                header('Location: /');
+            if ($prof['validated'] === 'approved') {
+                if (password_verify($password, $prof['password'])) {
+
+                    $id_session = bin2hex(random_bytes(32));
+                    $signature = hash_hmac('sha256', $id_session, 'GeniusGate');
+                    $authController->LoginProfs($id_session, $prof['id_prof'], $signature);
+                    header('Location: /');
+                } else {
+                    $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un Prof';
+                }
             } else {
-                $error['password'] = 'le nom d\'utilisateur ou le mot de passe est incorrect , Vous etes un Prof';
+                $error['password'] = ' Votre compte Professeur est en cours de validation ';
             }
         } else {
             $error['password'] = 'l\' utilisateur que vous avez entrer n\'existe pas';
         }
     }
+}
+
+$currentUserAdmin = $authAdmin->LoggedAsAdmin();
+$currentUserProfs = $authController->isLoggedAsProf();
+$currentUserEtudiants = $authController->isLoggedAsEtudiant();
+
+if ($currentUserAdmin || $currentUserProfs || $currentUserEtudiants) {
+    header("Location:/");
 }
 
 
@@ -108,11 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
 
+
             <div class="button-container">
                 <button type="submit">Se connecter</button>
             </div>
             <a style="width: 95%; display:flex ; justify-content:center; margin-top: 20px;" href="">mot de passe oublie?</a>
-            <p style="width: 95%; display:flex ; justify-content:center; align-items:center ; color: var(--black) ; ">Vous n'avez pas de compte? <a href="/views/Authentification/Register.php">Creer un compte</a></p>
+            <p style="width: 95%; display:flex ; justify-content:center; align-items:center ; color: var(--black) ; ">Vous n'avez pas de compte? <a href="/views/Authentification/Choice.php">Creer un compte</a></p>
 
 
         </form>

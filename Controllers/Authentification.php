@@ -4,6 +4,7 @@ class AuthController
     private $ProfsModel;
     private $EtudiantsModel;
 
+
     function __construct(ProfsModel $profsModel, EtudiantsModel $EtudiantsModel)
     {
         $this->ProfsModel = $profsModel;
@@ -39,10 +40,10 @@ class AuthController
 
 
 
-    public function registerEtudiants($name, $firstname, $email, $password)
+    public function registerEtudiants($name, $firstname, $email, $password, $level)
     {
         $password = password_hash($password, PASSWORD_ARGON2I);
-        $this->EtudiantsModel->InsertEtudiants($name, $firstname, $email, $password);
+        $this->EtudiantsModel->InsertEtudiants($name, $firstname, $email, $password, $level);
     }
     public function readEtudiants($email)
     {
@@ -103,11 +104,22 @@ class AuthController
     public function logoutEtudiant()
     {
         $id_session_etudiant = $_COOKIE['session'];
-        $this->EtudiantsModel->DeleteSession($id_session_etudiant);
-        setcookie('session', '', time() - 1, '/', '', false, true);
-        setcookie('signature', '', time() - 1, '/', '', false, true);
+        $sessionProf = $this->EtudiantsModel->ReadSessionEtudiants($id_session_etudiant);
+        if ($sessionProf) {
+            $this->EtudiantsModel->DeleteSession($id_session_etudiant);
+            setcookie('session', '', time() - 1, '/', '', false, true);
+            setcookie('signature', '', time() - 1, '/', '', false, true);
+        }
     }
     public function logoutProf()
     {
+
+        $id_session_prof = $_COOKIE['session'];
+        $sessionProf = $this->ProfsModel->ReadSessionProfs($id_session_prof);
+        if ($sessionProf) {
+            $this->ProfsModel->DeleteSession($id_session_prof);
+            setcookie('session', '', time() - 1, '/', '', false, true);
+            setcookie('signature', '', time() - 1, '/', '', false, true);
+        }
     }
 }
