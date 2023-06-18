@@ -36,7 +36,14 @@
     $Profs = $AuthDB->readProfsAll();
 
 
-
+    // include('404.php');
+    // exit();
+    http_response_code(200);
+    if (http_response_code() > 200) {
+        http_response_code(404);
+        include('404.php');
+        exit();
+    }
     ?>
     <div class="nav-container">
         <?php require_once './views/header.php' ?>

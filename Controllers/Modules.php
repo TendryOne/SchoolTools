@@ -26,4 +26,20 @@ class moduleController
 
         return $this->moduleModels->ReadmoduleAndProfs();
     }
+    public function UpdateModule($id_module, $nom, $id_prof)
+    {
+        $this->moduleModels->UpdateModule($id_module, $nom, $id_prof);
+    }
+    public function ReadmoduleByIdProf($id_prof)
+    {
+        return $this->moduleModels->ReadmoduleByIdProf($id_prof);
+    }
+    public function DeleteModule($id_module)
+    {
+        $this->moduleModels->DeleteModule($id_module);
+    }
+    public function checkConstraints($id_module, $id_prof)
+    {
+        return $this->moduleModels->checkConstraints($id_module, $id_prof);
+    }
 }

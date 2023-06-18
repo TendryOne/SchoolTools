@@ -11,10 +11,16 @@ class ProfController
 
     public function DeleteProf($id_prof)
     {
+
         return $this->prof->DeleteProf($id_prof);
     }
+
     public function AccessGrantedProfs($id_prof)
     {
         return $this->prof->AccessGrantedProfs($id_prof);
+    }
+    public function CheckModuleConstraints($id_prof)
+    {
+        return $this->prof->CheckModuleConstraints($id_prof);
     }
 }

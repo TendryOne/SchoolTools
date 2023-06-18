@@ -22,12 +22,24 @@ class emploiDuTempsController
     {
         return $this->emploidutempsModels->readEdtById($id_emploi);
     }
-    public function UpdateEdt($id_module, $jour, $heure_debut, $heure_fin, $salle)
+    public function UpdateEdt($id_emploi, $id_module, $jour, $heure_debut, $heure_fin, $salle)
     {
-        return $this->emploidutempsModels->UpdateEdt($id_module, $jour, $heure_debut, $heure_fin, $salle);
+        return $this->emploidutempsModels->UpdateEdt($id_emploi, $id_module, $jour, $heure_debut, $heure_fin, $salle);
     }
     public function DeleteEdt($id_emploi)
     {
         $this->emploidutempsModels->DeleteEdt($id_emploi);
+    }
+    public function ReadEdtByidModule($id_module)
+    {
+        return $this->emploidutempsModels->ReadEdtByidModule($id_module);
+    }
+    public function GetProfEdt($id_prof)
+    {
+        return $this->emploidutempsModels->GetProfEdt($id_prof);
+    }
+    public function AutoDeleteEvent($date)
+    {
+        $this->emploidutempsModels->AutoDeleteEvent($date);
     }
 }
