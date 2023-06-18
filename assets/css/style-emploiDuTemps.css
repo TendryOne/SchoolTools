@@ -1,0 +1,108 @@
+.emploi-du-temps{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 134px);
+}
+.emploi-du-temps form{
+    border: 1px solid black;
+    padding: 10px;
+}
+.emploi-du-temps .form-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.emploi-du-temps .form-group .form-list{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    
+}
+
+.emploi-du-temps .form-group label{
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    top:15%;
+    left:2%;
+    color: var(--black);
+    transition: 0.1s;
+    color: rgba(128, 128, 128, 0.348);
+}
+
+.emploi-du-temps .form-group label::after{
+    content: '';
+    position: absolute;
+    z-index: -1;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    border-radius: 50px;
+}
+
+.emploi-du-temps .form-group .form-list input:not(:placeholder-shown) + label,
+.emploi-du-temps .form-group .form-list select:not(:placeholder-shown) + label,
+ .emploi-du-temps .form-group .form-list input:focus + label,
+ .emploi-du-temps .form-group .form-list select:focus + label{
+    top: -10px;
+    color: var(--black);
+
+}
+
+.emploi-du-temps .form-group .form-list input:not(:placeholder-shown){
+    border: 1px solid var(--black);
+}
+
+.emploi-du-temps .form-group .form-list input::placeholder{
+    opacity: 0;
+}
+.emploi-du-temps .form-group .form-list input:focus::placeholder{
+    opacity: 1;
+    animation-delay: 0.2s;
+}
+
+
+
+select,
+.emploi-du-temps .form-group .form-list input {
+    width: 600px;
+    padding: 10px;
+    color: var(--black);
+    border: 1px solid rgba(0, 0, 0, 0.167);
+
+
+}
+.emploi-du-temps .form-group .form-list .error {
+    width: 600px;
+
+}
+.emploi-du-temps .form-group .form-list input:focus{
+    border: 1px solid var(--black);
+    outline: none;
+    border-bottom: 1px solid var(--black);
+}
+.emploi-du-temps .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px;
+}
+.emploi-du-temps .button-container button {
+    padding: 8px 30px;
+    background-color:#2ecc71 ;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
