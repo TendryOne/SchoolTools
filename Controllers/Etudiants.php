@@ -17,4 +17,8 @@ class EtudiantController
     {
         return $this->etudiant->AccessGrantedEtudiants($id_etudiant);
     }
+    public function ReadEtudiantById($id_etudiant)
+    {
+        return $this->etudiant->ReadEtudiantById($id_etudiant);
+    }
 }

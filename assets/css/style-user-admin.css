@@ -177,3 +177,54 @@ tr:nth-child(even) {
     cursor:not-allowed !important;
     background-color: gray;
 }
+
+
+
+
+.note-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 134px);
+}
+
+.note-container .card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    background-color: var(--black);
+    color: white;
+    width: 400px;
+    margin: 10px;
+
+}
+
+.note-container .image-container {
+    width: 400px;
+    min-height: 400px;
+    background-image: url('/assets/images/etudiant.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.note-container .module-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--black);
+    background-color: white;
+    border: 1px solid var(--black);
+    width: 100%;
+    transition: 0.2s ease-in-out;
+}
+
+.note-container .card:hover .module-container{
+    background-color: var(--primary-bg);
+    color: white;
+}
+

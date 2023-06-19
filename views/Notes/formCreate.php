@@ -52,7 +52,7 @@
     $etudiants = $authController->readEtudiantsAll();
     $Profs = $authController->readProfsAll();
     $modules = $moduleController->ReadmoduleByIdProf($currentUserProf['id_prof']);
-    var_dump($modules);
+
 
 
 
@@ -63,10 +63,19 @@
     ?>
     <?php require_once __DIR__ . '/../header.php' ?>
     <h2 class="title">Note</h2>
-
-
-
-    </table>
+    <ul class="note-container">
+        <?php foreach ($modules as $module) : ?>
+            <a style="text-decoration: none;" href="./List-etudiant.php?id_module=<?= $module['id_module'] ?>">
+                <div class="card">
+                    <li class="image-container"></li>
+                    <div class="module-container">
+                        <li><?= $module['nom'] ?></li>
+                        <li><?= $module['id_module'] ?></li>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach ?>
+    </ul>
 
 
     <script src="/assets/js/script.js"></script>
