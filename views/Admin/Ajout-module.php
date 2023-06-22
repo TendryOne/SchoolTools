@@ -100,7 +100,7 @@
             $error['nom'] = 'Le nom du module est trop court';
         }
 
-        if (!$id_prof) {
+        if ($id_prof === 'default') {
             $error['id_prof'] = REQUIRED_FIELD;
         }
 

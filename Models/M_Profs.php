@@ -14,7 +14,7 @@ class Profs
 
         $this->statementAccessGranted = $pdo->prepare('UPDATE profs SET validated = "approved" WHERE id_prof = :id_prof ');
 
-        $this->statementCheckModuleConstraints = $this->pdo->prepare('SELECT COUNT(*) FROM module WHERE id_prof = :id_prof');
+        $this->statementCheckModuleConstraints = $this->pdo->prepare('SELECT COUNT(*) FROM modules WHERE id_prof = :id_prof');
     }
 
     public function DeleteProf($id_prof)

@@ -8,6 +8,7 @@ class NoteModel
     private $statementUpdateNote;
     private $statementDeleteNote;
     private $statementReadNoteByIdEtudiant;
+    private $statementReadNoteByIdmodule;
     function __construct(private PDO $pdo)
     {
         $this->statementGetNote = $pdo->prepare('SELECT e.name, e.firstname, e.id_etudiant, n.note , n.id_note
@@ -27,6 +28,8 @@ class NoteModel
         $this->statementDeleteNote = $pdo->prepare('DELETE FROM  notes WHERE id_etudiant = :id_etudiant');
 
         $this->statementReadNoteByIdEtudiant = $pdo->prepare('SELECT * FROM notes WHERE id_etudiant = :id_etudiant');
+
+        $this->statementReadNoteByIdmodule = $pdo->prepare('SELECT * FROM notes WHERE id_module = :id_module');
     }
 
     public function GetNote($id_module)
@@ -68,5 +71,11 @@ class NoteModel
         $this->statementReadNoteByIdEtudiant->bindValue(":id_etudiant", $id_etudiant);
         $this->statementReadNoteByIdEtudiant->execute();
         return $this->statementReadNoteByIdEtudiant->fetchAll();
+    }
+    public function ReadNoteByIdModule($id_module)
+    {
+        $this->statementReadNoteByIdmodule->bindValue(':id_module', $id_module);
+        $this->statementReadNoteByIdmodule->execute();
+        return $this->statementReadNoteByIdmodule->fetchAll();
     }
 }

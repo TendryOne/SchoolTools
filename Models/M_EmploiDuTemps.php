@@ -41,7 +41,7 @@ class emploiDuTempsModel
 
         $this->statementGetProfEdt = $pdo->prepare('SELECT e.id_module, e.jour, e.heure_debut, e.heure_fin, e.salle, m.nom, m.id_prof
         FROM emploi_du_temps e
-        JOIN module m ON e.id_module = m.id_module
+        JOIN modules m ON e.id_module = m.id_module
         WHERE m.id_prof = :id_prof');
 
         $this->statementAutoDeleteEvent = $pdo->prepare('DELETE FROM emploi_du_temps WHERE jour < :current_date');

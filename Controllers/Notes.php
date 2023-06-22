@@ -33,4 +33,8 @@ class NoteController
     {
         return $this->noteModel->ReadNoteByidEtudiant($id_etudiant);
     }
+    public function ReadNoteByIdModule($id_module)
+    {
+        return $this->noteModel->ReadNoteByIdModule($id_module);
+    }
 }

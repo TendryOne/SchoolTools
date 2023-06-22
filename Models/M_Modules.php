@@ -12,29 +12,29 @@ class moduleModel
 
     function __construct(private PDO $pdo)
     {
-        $this->statementInsertmodule = $pdo->prepare('INSERT INTO module VALUES (
+        $this->statementInsertmodule = $pdo->prepare('INSERT INTO modules VALUES (
             :id_module,
             :nom,
             :id_prof
         )');
 
-        $this->statementReadmodule = $pdo->prepare('SELECT * FROM module');
+        $this->statementReadmodule = $pdo->prepare('SELECT * FROM modules');
 
-        $this->statementReadmoduleById = $pdo->prepare('SELECT * FROM module WHERE id_module = :id_module');
+        $this->statementReadmoduleById = $pdo->prepare('SELECT * FROM modules WHERE id_module = :id_module');
 
-        $this->statementReadModuleAndProf = $pdo->prepare('SELECT m.nom , p.name , p.firstname , m.id_module, m.id_prof FROM module m JOIN profs p ON m.id_prof = p.id_prof');
+        $this->statementReadModuleAndProf = $pdo->prepare('SELECT m.nom , p.name , p.firstname , m.id_module, m.id_prof FROM modules m JOIN profs p ON m.id_prof = p.id_prof');
 
-        $this->statementReadmoduleByIdProf = $pdo->prepare('SELECT * FROM module WHERE id_prof = :id_prof');
+        $this->statementReadmoduleByIdProf = $pdo->prepare('SELECT * FROM modules WHERE id_prof = :id_prof');
 
-        $this->statementUpdateModule = $pdo->prepare('UPDATE module SET 
+        $this->statementUpdateModule = $pdo->prepare('UPDATE modules SET 
             nom = :nom,
             id_prof = :id_prof
             WHERE id_module = :id_module
         ');
 
-        $this->statementDeleteModule = $pdo->prepare('DELETE FROM module WHERE id_module = :id_module');
+        $this->statementDeleteModule = $pdo->prepare('DELETE FROM modules WHERE id_module = :id_module');
 
-        $this->statementCheckConstraints = $pdo->prepare('SELECT count(*) FROM emploi_du_temps e LEFT JOIN module m ON e.id_module = m.id_module WHERE e.id_module = :id_module AND (m.id_prof IS NULL OR m.id_prof = :id_prof)');
+        $this->statementCheckConstraints = $pdo->prepare('SELECT count(*) FROM emploi_du_temps e LEFT JOIN modules m ON e.id_module = m.id_module WHERE e.id_module = :id_module AND (m.id_prof IS NULL OR m.id_prof = :id_prof)');
     }
 
     public function insertmodule($id_module, $nom, $id_prof)

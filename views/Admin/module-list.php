@@ -31,16 +31,20 @@
     require __DIR__ . '/../../Models/M_EmploiDuTemps.php';
     require __DIR__ . '/../../Models/M_Modules.php';
     require __DIR__ . '/../../Controllers/Modules.php';
+    require __DIR__ . '/../../Models//M_Notes.php';
+    require __DIR__ . '/../../Controllers/Notes.php';
 
     $profsModel = new ProfsModel($pdo);
     $EtudiantsModel = new EtudiantsModel($pdo);
     $AdminModel = new Admin($pdo);
+    $noteModel = new NoteModel($pdo);
     $emploiModels = new emploiDuTempsModel($pdo);
     $modulesModel = new moduleModel($pdo);
     $authController = new AuthController($profsModel, $EtudiantsModel);
     $authAdmin = new AuthAdmin($AdminModel);
     $edtController = new emploiDuTempsController($emploiModels);
     $moduleController = new moduleController($modulesModel);
+    $noteController = new NoteController($noteModel);
 
     $etudiant = $authController->readEtudiantsAll();
     $edt = $edtController->readEdt();
@@ -81,6 +85,7 @@
                         <?php
                         $moduleEdt = $edtController->ReadEdtByidModule($module['id_module']);
                         $constraints = $moduleController->checkConstraints($module['id_module'], $module['id_prof']);
+                        $noteModule = $noteController->ReadNoteByIdModule($module['id_module']);
                         ?>
                         <td>
                             <?= $module['nom'] ?>
@@ -92,10 +97,13 @@
                             <?php if ($moduleEdt) : ?>
                                 <p>Ne peut être supprimer car ce module est ratacher à un evenement du <?= DateTime::createFromFormat('Y-m-d', $moduleEdt['jour'])->format('d/m/Y'); ?> de <?= $moduleEdt['id_module'] ?></p>
                             <?php endif ?>
+                            <?php if ($noteModule) : ?>
+                                <p>Ne peut être supprimer car rattacher au note des eleves</p>
+                            <?php endif ?>
                         </td>
                         <td class="button-container">
                             <a class="button" href="/views/Admin/Ajout-module.php?id=<?= $module['id_module'] ?>">Modifier</a>
-                            <a class="button button-delete <?= $constraints ? 'disabled' : '' ?>" href="/views/Admin/delete-module.php?id=<?= $module['id_module'] ?>">Effacer</a>
+                            <a class="button button-delete <?= $constraints || $noteModule ? 'disabled' : '' ?>" href="/views/Admin/delete-module.php?id=<?= $module['id_module'] ?>">Effacer</a>
                         </td>
                     </tr>
 
