@@ -21,7 +21,8 @@ class EtudiantsModel
             :email,
             :password,
             "pending",
-            :level
+            :level,
+            DEFAULT
                 )');
 
         $this->statementEtudiantRead = $pdo->prepare('SELECT * FROM etudiants WHERE email=:email');
@@ -109,7 +110,8 @@ class ProfsModel
             :firstname,
             :email,
             :password,
-            "pending"
+            "pending",
+            DEFAULT
                 )');
         $this->statementProfsRead = $pdo->prepare('SELECT * FROM profs WHERE email=:email');
 

@@ -5,6 +5,7 @@ class Profs
     private $statementdeleteProfs;
     private $statementAccessGranted;
     private $statementCheckModuleConstraints;
+    private $statementProfileUpload;
 
 
     function __construct(private PDO $pdo)
@@ -15,6 +16,8 @@ class Profs
         $this->statementAccessGranted = $pdo->prepare('UPDATE profs SET validated = "approved" WHERE id_prof = :id_prof ');
 
         $this->statementCheckModuleConstraints = $this->pdo->prepare('SELECT COUNT(*) FROM modules WHERE id_prof = :id_prof');
+
+        $this->statementProfileUpload = $pdo->prepare('UPDATE profs SET ProfilePicture = :ProfilePicture WHERE id_prof = :id_prof');
     }
 
     public function DeleteProf($id_prof)
@@ -32,5 +35,12 @@ class Profs
         $this->statementCheckModuleConstraints->bindValue(':id_prof', $id_prof);
         $this->statementCheckModuleConstraints->execute();
         return $this->statementCheckModuleConstraints->fetchColumn();
+    }
+
+    public function UploadProfile($profilePicture, $id_prof)
+    {
+        $this->statementProfileUpload->bindValue(':id_prof', $id_prof);
+        $this->statementProfileUpload->bindValue(':ProfilePicture', $profilePicture);
+        $this->statementProfileUpload->execute();
     }
 }

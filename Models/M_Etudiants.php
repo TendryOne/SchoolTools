@@ -5,6 +5,7 @@ class Etudiants
     private $statementDeleteEtudiants;
     private $statementAccessGranted;
     private $statementReadEtudiantById;
+    private $statementUpdateProfile;
 
     function __construct(private PDO $pdo)
     {
@@ -14,6 +15,8 @@ class Etudiants
         $this->statementAccessGranted = $pdo->prepare('UPDATE etudiants SET validated = "approved" WHERE id_etudiant = :id_etudiant ');
 
         $this->statementReadEtudiantById = $pdo->prepare('SELECT * FROM etudiants WHERE id_etudiant = :id_etudiant');
+
+        $this->statementUpdateProfile = $pdo->prepare('UPDATE etudiants SET ProfilePicture = :ProfilePicture WHERE id_etudiant = :id_etudiant');
     }
 
     public function DeleteEtudiant($id_etudiant)
@@ -32,5 +35,11 @@ class Etudiants
         $this->statementReadEtudiantById->bindValue(':id_etudiant', $id_etudiant);
         $this->statementReadEtudiantById->execute();
         return $this->statementReadEtudiantById->fetch();
+    }
+    public function UploadProfile($profilePicture, $id_etudiant)
+    {
+        $this->statementUpdateProfile->bindValue(':id_etudiant', $id_etudiant);
+        $this->statementUpdateProfile->bindValue(':ProfilePicture', $profilePicture);
+        $this->statementUpdateProfile->execute();
     }
 }

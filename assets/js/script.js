@@ -12,4 +12,25 @@ profile.addEventListener('click' , e =>{
 })
 
 
-
+function displayFileName(input) {
+    let fileNameElement = document.getElementById('fileName');
+    fileNameElement.textContent = input.files[0].name;
+  }
+  
+  function displayImagePreview(input) {
+    let fileLabel = document.getElementById('fileLabel');
+    let file = input.files[0];
+  
+    if (file) {
+      var reader = new FileReader();
+  
+      reader.onload = function(event) {
+        fileLabel.style.backgroundImage = 'url(' + event.target.result + ')';
+      };
+  
+      reader.readAsDataURL(file);
+    } else {
+      fileLabel.style.backgroundImage = '';
+    }
+  }
+  

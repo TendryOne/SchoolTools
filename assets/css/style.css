@@ -148,7 +148,11 @@ nav
 
     color: white;
      background-color: var(--primary-bg);
+     background-position: center;
+     background-size: cover;
+     background-repeat: no-repeat;
      border-radius:100% ;
+     border: 2px solid var(--primary-bg);
      width:50px ;
      height:50px ;
       display:flex ; 

@@ -23,4 +23,8 @@ class ProfController
     {
         return $this->prof->CheckModuleConstraints($id_prof);
     }
+    public function UploadProfile($profilePicture, $id_prof)
+    {
+        $this->prof->UploadProfile($profilePicture, $id_prof);
+    }
 }

@@ -43,10 +43,10 @@
 
         <?php if ($currentUserEtudiant) : ?>
             <div class="nav-prof">
-                <li class="profile"><i class="fa-solid fa-user-graduate" style="color: white;"></i> <?= $currentUserEtudiant['firstname'][0] . ' ' . $currentUserEtudiant['name'][0] ?></li>
+                <li class="profile" style="background-image:url('<?= $currentUserEtudiant['ProfilePicture'] ?>')"><?= $currentUserEtudiant['ProfilePicture'] ? '' : '<i class="fa-solid fa-user-graduate" style="color: white;"></i>' ?> <?= $currentUserEtudiant['ProfilePicture'] ? '' : $currentUserEtudiant['firstname'][0] . ' ' . $currentUserEtudiant['name'][0] ?></li>
                 <ul class="dropdown-profile">
                     <li>Statut : <span style="color: var(--secondary-bg); margin-left:10px"> Etudiant</span></li>
-                    <li><a href="http://">Parametres <i class="fa-solid fa-gear"></i></a></li>
+                    <li><a href="/views/Etudiants/profile.php">Parametres <i class="fa-solid fa-gear"></i></a></li>
                     <li><a href="/views/EmploiDuTemps/emploiDutemps-Etudiant.php">Mon emploi du temps <i class="fa-solid fa-timeline"></i></a></li>
                     <li><a href="/views/Notes/note-etudiant.php">Ma note <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views//Authentification/logout.php">Deconnexion <i class="fa-solid fa-right-from-bracket"></i></a></li>
@@ -57,10 +57,10 @@
 
         <?php if ($currentUserProf) : ?>
             <div class="nav-prof">
-                <li class="profile"><i class="fa-solid fa-user-tie" style="color: white;"></i> <?= $currentUserProf['firstname'][0] . ' ' . $currentUserProf['name'][0] ?></li>
+                <li class="profile" style="background-image:url('<?= $currentUserProf['ProfilePicture'] ?>');"><?= $currentUserProf['ProfilePicture'] ? '' : '<i class="fa-solid fa-user-tie" style="color: white; "></i>' ?> <?= !$currentUserProf['ProfilePicture'] ? $currentUserProf['firstname'][0] . ' ' . $currentUserProf['name'][0] : '' ?></li>
                 <ul class="dropdown-profile">
                     <li>Statut : <span style="color: var(--secondary-bg); margin-left:10px"> Professeur </span></li>
-                    <li><a href="http://">Parametres <i class="fa-solid fa-gear"></i></a></li>
+                    <li><a href="/views/Profs/profile.php">Parametres <i class="fa-solid fa-gear"></i></a></li>
                     <li><a href="/views/EmploiDuTemps/emploiDuTemps-List.php">Mon emploi du temps <i class="fa-solid fa-timeline"></i></a></li>
                     <li><a href="/views/Notes/formCreate.php">Note des eleves <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views//Authentification/logout.php">Deconnexion <i class="fa-solid fa-right-from-bracket"></i></a></li>
@@ -73,7 +73,7 @@
                 <li class="profile"><i class="fa-solid fa-user-shield" style="color: white;"></i> <?= $currentUserAdmin['username'][0] ?></li>
                 <ul class="dropdown-profile">
                     <li>Statut : <span style="color: var(--secondary-bg); margin-left:10px"> Super Admin <i class="fa-solid fa-shield-halved"></i></span></li>
-                    <li><a href="http://">Parametres <i class="fa-solid fa-gear"></i></a></li>
+                    <li><a href="#">Parametres <i class="fa-solid fa-gear"></i></a></li>
                     <li><a href="/views/Admin/User-etudiants.php">Gerer <i class="fa-solid fa-timeline"></i></a></li>
                     <li><a href="http://">Ajout d'emploi du temps <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views/Admin/logout.php">Deconnexion <i class="fa-solid fa-right-from-bracket"></i></a></li>

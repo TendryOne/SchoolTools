@@ -100,6 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty(array_filter($error, fn ($e) => $e !== ''))) {
+
+
+
         $etudiant = $authController->readEtudiants($email);
         $prof = $authController->readProfs($email);
         if ($etudiant || $prof) {

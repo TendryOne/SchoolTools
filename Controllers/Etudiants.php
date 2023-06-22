@@ -21,4 +21,8 @@ class EtudiantController
     {
         return $this->etudiant->ReadEtudiantById($id_etudiant);
     }
+    public function UploadProfile($profilePicture, $id_etudiant)
+    {
+        $this->etudiant->UploadProfile($profilePicture, $id_etudiant);
+    }
 }
