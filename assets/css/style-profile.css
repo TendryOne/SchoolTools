@@ -1,0 +1,119 @@
+.profile-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.profile-container form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+.information-container{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    flex-direction: column;
+    list-style: none;
+    background-color: var(--black); 
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-width: 40%;
+    color: white;
+}
+.information-container .info-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+    padding: 10px;
+
+}
+.information-container .info-content span{
+
+   flex: 0 0 100px;
+    
+}
+.information-container .info-content li{
+    text-align: end;
+    flex: 1;
+ 
+}
+
+
+
+.custom-file-input{
+    padding: 10px;
+
+}
+.custom-file-input input[type="file"] {
+    display: none;
+}
+
+.custom-file-input label {
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    padding: 10px 15px;
+    height: 250px ;
+    width: 250px;
+    display: block;
+    border-radius: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+    transition: 0.5s ease-in-out;
+    border: 10px solid var(--black) ;
+}
+.custom-file-input label::after{
+    content: '';
+    background-color: rgba(0, 0, 0, 0.422);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s ease-in-out;
+    z-index: -1;
+}
+
+.custom-file-input label:hover::after  {
+    background-color: rgba(0,0,0,0);
+    backdrop-filter: blur(5px);
+
+}
+.custom-file-input label:hover {
+    color: var(--black);
+}
+
+.custom-file-input label:active {
+    background-color: #ccc;
+}
+
+.button-container{
+    min-width: 40%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: 30px;
+}
+.button-container button{
+    padding: 10px 15px;
+    background-color: var(--success);
+    color: var(--black);
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px ;
+}
