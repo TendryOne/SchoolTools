@@ -6,6 +6,8 @@ class NoteModel
     private $statementAddNote;
     private $statementCheckProtection;
     private $statementUpdateNote;
+    private $statementDeleteNote;
+    private $statementReadNoteByIdEtudiant;
     function __construct(private PDO $pdo)
     {
         $this->statementGetNote = $pdo->prepare('SELECT e.name, e.firstname, e.id_etudiant, n.note , n.id_note
@@ -21,6 +23,10 @@ class NoteModel
         $this->statementCheckProtection = $pdo->prepare('SELECT * FROM notes WHERE id_module = :id_module AND id_etudiant = :id_etudiant ;');
 
         $this->statementUpdateNote = $pdo->prepare('UPDATE notes SET note = :note WHERE id_note = :id_note ');
+
+        $this->statementDeleteNote = $pdo->prepare('DELETE FROM  notes WHERE id_etudiant = :id_etudiant');
+
+        $this->statementReadNoteByIdEtudiant = $pdo->prepare('SELECT * FROM notes WHERE id_etudiant = :id_etudiant');
     }
 
     public function GetNote($id_module)
@@ -51,5 +57,16 @@ class NoteModel
         $this->statementUpdateNote->bindValue(':note', $note);
         $this->statementUpdateNote->bindValue(':id_note', $id_note);
         $this->statementUpdateNote->execute();
+    }
+    public function DeleteNote($id_etudiant)
+    {
+        $this->statementDeleteNote->bindValue(':id_etudiant', $id_etudiant);
+        $this->statementDeleteNote->execute();
+    }
+    public function ReadNoteByidEtudiant($id_etudiant)
+    {
+        $this->statementReadNoteByIdEtudiant->bindValue(":id_etudiant", $id_etudiant);
+        $this->statementReadNoteByIdEtudiant->execute();
+        return $this->statementReadNoteByIdEtudiant->fetchAll();
     }
 }

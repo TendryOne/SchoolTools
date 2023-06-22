@@ -3,14 +3,17 @@ CREATE DATABASE projet_examen;
 USE projet_examen;
 
 -- Table pour les étudiants
-CREATE TABLE etudiant (
-  id_etudiant INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(50),
-  firstname VARCHAR(50),
-  email VARCHAR(100),
-  password CHAR(255),
-  validated ENUM('approved', 'pending')
-);
+CREATE TABLE `etudiants` (
+  `id_etudiant` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` char(255) DEFAULT NULL,
+  `validated` enum('approved','pending') DEFAULT NULL,
+  `level` char(10) DEFAULT NULL,
+  PRIMARY KEY (`id_etudiant`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) 
 
 
 -- Table pour les professeurs
@@ -23,63 +26,81 @@ CREATE TABLE profs (
   validated ENUM('approved', 'pending')
 );
 
--- Table pour les modules
-CREATE TABLE modules (
-  id_module INT PRIMARY KEY AUTO_INCREMENT,
-  nom VARCHAR(100),
-  id_prof INT,
-  FOREIGN KEY (id_prof) REFERENCES profs(id_prof)
-
-);
+-- Table pour les module
+CREATE TABLE `module` (
+  `id_module` char(10) NOT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `id_prof` int DEFAULT NULL,
+  PRIMARY KEY (`id_module`),
+  UNIQUE KEY `id_module_UNIQUE` (`id_module`),
+  KEY `id_prof` (`id_prof`),
+  CONSTRAINT `module_ibfk_1` FOREIGN KEY (`id_prof`) REFERENCES `profs` (`id_prof`)
+) 
 
 -- Table pour les notes
-CREATE TABLE notes (
-  id_note INT PRIMARY KEY AUTO_INCREMENT,
-  id_etudiant INT,
-  id_module INT,
-  note DECIMAL(4, 2),
-  FOREIGN KEY (id_etudiant) REFERENCES etudiants(id_etudiant),
-  FOREIGN KEY (id_module) REFERENCES modules(id_module)
-
-);
+CREATE TABLE `notes` (
+  `id_note` int NOT NULL AUTO_INCREMENT,
+  `id_etudiant` int DEFAULT NULL,
+  `id_module` char(10) DEFAULT NULL,
+  `note` decimal(4,2) DEFAULT NULL,
+  PRIMARY KEY (`id_note`),
+  UNIQUE KEY `uc_etudiant_module` (`id_etudiant`,`id_module`),
+  KEY `fk_notes_module` (`id_module`),
+  CONSTRAINT `fk_notes_etudiant` FOREIGN KEY (`id_etudiant`) REFERENCES `etudiants` (`id_etudiant`),
+  CONSTRAINT `fk_notes_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`id_module`)
+) 
 
 -- Table pour l'emploi du temps
-CREATE TABLE emploi_du_temps (
-  id_emploi INT PRIMARY KEY AUTO_INCREMENT,
-  id_module INT,
-  salle VARCHAR(50),
-  jour DATE,
-  heure_debut TIME,
-  heure_fin TIME,
-  FOREIGN KEY (id_module) REFERENCES modules(id_module)
-
-);
-
---session etudiants
-CREATE TABLE session_etudiants (
-    id_session_etudiant CHAR(255) PRIMARY KEY,
-    id_etudiant,
-    FOREIGN KEY (id_etudiant) REFERENCES etudiants(id_etudiant)
+CREATE TABLE `emploi_du_temps` (
+  `id_emploi` int NOT NULL AUTO_INCREMENT,
+  `id_module` char(10) DEFAULT NULL,
+  `jour` date DEFAULT NULL,
+  `heure_debut` time DEFAULT NULL,
+  `heure_fin` time DEFAULT NULL,
+  `salle` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_emploi`),
+  KEY `id_module` (`id_module`),
+  CONSTRAINT `emploi_du_temps_ibfk_1` FOREIGN KEY (`id_module`) REFERENCES `module` (`id_module`)
 )
 
+--session etudiants
+CREATE TABLE `sessions_etudiants` (
+  `id_session_etudiant` char(255) NOT NULL,
+  `id_etudiant` int DEFAULT NULL,
+  PRIMARY KEY (`id_session_etudiant`),
+  KEY `id_etudiant` (`id_etudiant`),
+  CONSTRAINT `sessions_etudiants_ibfk_1` FOREIGN KEY (`id_etudiant`) REFERENCES `etudiants` (`id_etudiant`)
+) 
+
 --session Profs
-CREATE TABLE session_profs (
-    id_session_prof CHAR(255) PRIMARY KEY,
-    id_prof INT,
-    FOREIGN KEY (id_prof) REFERENCES profs(id_prof)
-);
+CREATE TABLE `profs` (
+  `id_prof` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` char(255) DEFAULT NULL,
+  `validated` enum('approved','pending') DEFAULT NULL,
+  PRIMARY KEY (`id_prof`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) 
 
 --Creation de la table admin
-CREATE TABLE admin (
-  id_admin INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50),
-  email VARCHAR(100),
-  password CHAR(255),
-  role ENUM('admin', 'moderator', 'superadmin')
-);
+CREATE TABLE `admin` (
+  `id_admin` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` char(255) DEFAULT NULL,
+  `role` enum('admin','moderator','superadmin') DEFAULT NULL,
+  PRIMARY KEY (`id_admin`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) 
 
-CREATE TABLE admin_session(
-  id_session_admin CHAR(255) PRIMARY KEY,
-  id_admin INT,
-  FOREIGN KEY (id_admin) REFERENCES admin (id_admin)
+
+CREATE TABLE `admin_session` (
+  `id_session_admin` char(255) NOT NULL,
+  `id_admin` int DEFAULT NULL,
+  PRIMARY KEY (`id_session_admin`),
+  KEY `id_admin` (`id_admin`),
+  CONSTRAINT `admin_session_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`)
 )

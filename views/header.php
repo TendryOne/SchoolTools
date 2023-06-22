@@ -47,8 +47,8 @@
                 <ul class="dropdown-profile">
                     <li>Statut : <span style="color: var(--secondary-bg); margin-left:10px"> Etudiant</span></li>
                     <li><a href="http://">Parametres <i class="fa-solid fa-gear"></i></a></li>
-                    <li><a href="http://">Mon emploi du temps <i class="fa-solid fa-timeline"></i></a></li>
-                    <li><a href="http://">Ma note <i class="fa-solid fa-award"></i></a></li>
+                    <li><a href="/views/EmploiDuTemps/emploiDutemps-Etudiant.php">Mon emploi du temps <i class="fa-solid fa-timeline"></i></a></li>
+                    <li><a href="/views/Notes/note-etudiant.php">Ma note <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views//Authentification/logout.php">Deconnexion <i class="fa-solid fa-right-from-bracket"></i></a></li>
 
                 </ul>

@@ -25,4 +25,12 @@ class NoteController
     {
         $this->noteModel->UpdateNote($note, $id_note);
     }
+    public function DeleteNote($id_etudiant)
+    {
+        $this->noteModel->DeleteNote($id_etudiant);
+    }
+    public function ReadNoteByidEtudiant($id_etudiant)
+    {
+        return $this->noteModel->ReadNoteByidEtudiant($id_etudiant);
+    }
 }
