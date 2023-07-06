@@ -49,7 +49,9 @@
         <?php require_once './views/header.php' ?>
         <div class="slogan">
             <h2 style=" color:white;"><i class="fa-solid fa-quote-left fa-fade" style="font-size: 50px; color:white;"></i> Des professeurs engagés, des étudiants inspirés - ensemble, nous grandissons <i class="fa-sharp fa-solid fa-quote-right fa-fade" style="font-size: 50px;  color:white;"></i></h2>
-            <a href="/views//Authentification/Choice.php">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
+            <?php if (!($currentUserAdmin || $currentUserEtudiant || $currentUserProf)) : ?>
+                <a href="/views//Authentification/Choice.php">Nous rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
+            <?php endif; ?>
         </div>
 
 
@@ -91,7 +93,7 @@
                 <p>Rejoignez la communauté Genius Gate et élevez vos compétences à de nouveaux sommets, là où la passion de l'apprentissage rencontre la connexion entre enseignants et étudiants.</p>
 
                 <div class="join-container">
-                    <a href="">Nous Rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
+                    <a href="/views//Authentification/Choice.php">Nous Rejoindre <i class="fa-sharp fa-solid fa-graduation-cap"></i></a>
                     <a href="">En savoir plus ... </a>
                 </div>
 

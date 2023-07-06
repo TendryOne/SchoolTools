@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-list">
                     <label for="username"><i class="fa-solid fa-user"></i></label>
                     <input type="text" name="username" id="username" placeholder="Votre Pseudo" value="<?= $username ?? '' ?>">
+
                 </div>
                 <?php if ($error['username']) : ?>
                     <p class="error"><i class="fa-solid fa-circle-exclamation"></i> <?= $error['username'] ?> </p>
@@ -100,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-list">
                     <label for="password"><i class="fa-solid fa-lock"></i></label>
                     <input type="password" name="password" id="password" placeholder="Votre mot de passe">
+
                 </div>
                 <?php if ($error['password']) : ?>
                     <p class="error"><i class="fa-solid fa-circle-exclamation"></i> <?= $error['password'] ?> </p>

@@ -37,7 +37,7 @@
 
     <ul class="nav-connexion-container">
         <?php if (!$currentUserEtudiant && !$currentUserProf && !$currentUserAdmin) : ?>
-            <li><a href="/views/Admin/admin-login.php"><i class="fa-solid fa-shield-halved"></i></a></li>
+            <li><a href="/views/Admin/admin-login.php">Admin <i class="fa-solid fa-shield-halved"></i></a></li>
             <li><a class="join" href="/views/Authentification/login.php"> Se connecter <i class="fa-solid fa-right-to-bracket"></i> </a></li>
         <?php endif; ?>
 
@@ -73,9 +73,9 @@
                 <li class="profile"><i class="fa-solid fa-user-shield" style="color: white;"></i> <?= $currentUserAdmin['username'][0] ?></li>
                 <ul class="dropdown-profile">
                     <li>Statut : <span style="color: var(--secondary-bg); margin-left:10px"> Super Admin <i class="fa-solid fa-shield-halved"></i></span></li>
-                    <li><a href="#">Parametres <i class="fa-solid fa-gear"></i></a></li>
+                    <li><a href="/views/Admin/User-etudiants.php">Mes etudiants <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views/Admin/User-etudiants.php">Gerer <i class="fa-solid fa-timeline"></i></a></li>
-                    <li><a href="http://">Ajout d'emploi du temps <i class="fa-solid fa-award"></i></a></li>
+                    <li><a href="/views/Admin/User-profs.php">Mes profs <i class="fa-solid fa-award"></i></a></li>
                     <li><a href="/views/Admin/logout.php">Deconnexion <i class="fa-solid fa-right-from-bracket"></i></a></li>
 
                 </ul>

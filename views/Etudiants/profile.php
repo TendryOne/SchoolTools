@@ -51,7 +51,8 @@
 
     $location = __DIR__ . '/../../assets/ProfilePicture/';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+        if ($_FILES['ProfilePicture']['size'] > (5 * 1024 * 1024)) {
+        }
         if ($_FILES['ProfilePicture']['error'] === UPLOAD_ERR_OK) {
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'jpg1'];
             $fileName = $_FILES['ProfilePicture']['name'];
@@ -92,7 +93,7 @@
 
         <form action="profile.php" method="POST" enctype="multipart/form-data">
 
-            <div class="custom-file-input">
+            <div class="custom-file-input" style="display: flex; align-items: center; justify-content:center; ">
                 <input type="file" id="myFile" name="ProfilePicture" onchange="displayImagePreview(this)">
 
                 <label for="myFile" id="fileLabel" style="background-image:url('<?= !$currentUserEtudiant['ProfilePicture'] ? '/assets/images/logoNB.png' : $currentUserEtudiant['ProfilePicture'] ?>');">Modifier ma Photo de profil</label>

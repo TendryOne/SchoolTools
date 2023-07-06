@@ -1,11 +1,9 @@
+
 CREATE DATABASE projet_examen;
 USE projet_examen;
 
 
 -- Table pour les étudiants
-
-
-
 CREATE TABLE etudiants (
   id_etudiant INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50),
@@ -80,7 +78,7 @@ CREATE TABLE sessions_profs (
 );
 
 
---Creation de la table admin
+-- Creation de la table admin
 CREATE TABLE admin (
   id_admin INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50),
@@ -94,3 +92,9 @@ CREATE TABLE admin_session(
   id_admin INT,
   FOREIGN KEY (id_admin) REFERENCES admin (id_admin)
 )
+
+-- Insertion de l'admin
+
+INSERT INTO admin (username, email, password, role)
+VALUES ( 'admin', 'test@exemple.com', '$argon2i$v=19$m=65536,t=4,p=1$ZlNRdjZqQW50U2NtOVkvTw$fz4Lywf1ilWS6QzAovfq8zHe+28HiWyQH6vE6BsDuzs', 'superadmin'
+);
